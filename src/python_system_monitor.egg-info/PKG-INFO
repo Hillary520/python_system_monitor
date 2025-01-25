@@ -1,0 +1,13 @@
+Metadata-Version: 2.2
+Name: python_system_monitor
+Version: 0.1.0
+Requires-Python: >=3.7
+Requires-Dist: psutil>=5.8.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.14.0; extra == "dev"
+Requires-Dist: pytest-mock>=3.5.0; extra == "dev"
+Requires-Dist: pytest-cov>=2.12.0; extra == "dev"
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python

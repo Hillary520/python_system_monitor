@@ -1,0 +1,2 @@
+[console_scripts]
+system-monitor = python_system_monitor.main:run
