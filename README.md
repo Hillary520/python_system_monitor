@@ -110,4 +110,4 @@ pytest tests/ --cov=python_system_monitor
 ## About
 
 This project was created to provide a modern, efficient system monitoring solution with a focus on performance and user experience.
-```
+
