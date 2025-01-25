@@ -1,13 +1,19 @@
 #!/bin/bash
-CYCLES=5          # Number of wave repetitions
-GROUP_DURATION=3  # Active stress time per group
-MAX_CORE=7        # Maximum core number (0-7)
 
-# Pre-validated core groups
+# Stress test script for testing CPU utilization patterns
+# This script creates varying load patterns on different CPU core combinations
+# to test the system monitor's CPU tracking capabilities.
+
+# Configuration parameters
+CYCLES=5          # Number of complete wave pattern repetitions
+GROUP_DURATION=3  # Duration (seconds) of stress for each core group
+MAX_CORE=7        # Highest CPU core index (0-7 for 8 cores)
+
+# Pre-validated core groups for different stress patterns
 VALID_GROUPS=(
-    "0,1"    "2,3"    "4,5"    "6,7"     # Core pairs
-    "0,2,4,6" "1,3,5,7"                  # Even/odd cores
-    "0,7"    "1,6"    "2,5"    "3,4"     # Diagonal pairs
+    "0,1"    "2,3"    "4,5"    "6,7"     # Adjacent core pairs
+    "0,2,4,6" "1,3,5,7"                   # Even/odd cores (cross-core testing)
+    "0,7"    "1,6"    "2,5"    "3,4"     # Distance-based pairs (thermal spread)
 )
 
 validate_group() {

@@ -1,5 +1,12 @@
 """
-processes.py - Enhanced process monitoring
+Process monitoring and management module.
+
+Key features:
+- Real-time process statistics tracking
+- Resource usage monitoring per process
+- Process control capabilities
+- I/O and network connection tracking
+- Memory and CPU utilization measurement
 """
 
 import psutil
@@ -8,6 +15,15 @@ import os
 import time
 
 class ProcessMonitor:
+    """Monitors and manages system processes with resource tracking capabilities.
+    
+    Maintains running statistics for:
+    - CPU usage over time
+    - I/O operations tracking
+    - Memory usage
+    - Network connections
+    - Thread counts
+    """
     def __init__(self):
         self.cpu_percent_dict = {}
         self.io_counters = {}

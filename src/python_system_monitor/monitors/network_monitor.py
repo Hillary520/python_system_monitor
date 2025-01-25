@@ -1,5 +1,9 @@
-"""
-network_monitor.py - Enhanced network monitoring with rate smoothing
+"""Module for network bandwidth monitoring with rate smoothing.
+
+Tracks network interface bandwidth usage with:
+- Download/upload rate calculation
+- Rate smoothing for stable readings
+- Interface enumeration
 """
 
 import psutil
@@ -8,7 +12,15 @@ import socket
 from collections import deque
 
 class NetworkMonitor:
-    def __init__(self, smoothing_window=3):  # Reduce window size for faster response
+    """Monitors network bandwidth with smoothed rate calculations.
+
+    Args:
+        smoothing_window (int): Number of samples to use for rate smoothing
+
+    Tracks bandwidth usage across all network interfaces and provides
+    smoothed rate calculations to prevent erratic readings.
+    """
+    def __init__(self, smoothing_window=3):
         self.last_received = psutil.net_io_counters().bytes_recv
         self.last_sent = psutil.net_io_counters().bytes_sent
         self.last_check_time = time.time()
@@ -30,7 +42,7 @@ class NetworkMonitor:
         
         # Reduce minimum time delta
         time_delta = current_time - self.last_check_time
-        if time_delta < 0.05:  # Reduce from 0.1 to 0.05 seconds
+        if time_delta < 0.05: 
             if self.recv_rates and self.sent_rates:
                 recv_rate = self.recv_rates[-1]
                 sent_rate = self.sent_rates[-1]

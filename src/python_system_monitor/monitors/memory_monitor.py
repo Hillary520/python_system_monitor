@@ -1,27 +1,49 @@
 """
-memory_monitor.py
+Memory utilization monitoring module.
 
-This module handles memory monitoring functionality through the MemoryMonitor class.
-It provides both RAM and swap usage information in percentage and visual format.
+Features:
+- RAM usage tracking
+- Swap space monitoring
+- Visual progress bars
+- Percentage-based metrics
+- Real-time updates
+
+Example usage:
+    monitor = MemoryMonitor(bars=50)
+    ram_usage = monitor.get_memory_usage()
+    swap_usage = monitor.get_swap_usage()
 """
 
 import psutil
 
 class MemoryMonitor:
+    """Tracks and visualizes system memory usage.
+
+    Args:
+        bars (int): Number of characters to use in the visual progress bar
+
+    The monitor provides both numerical percentages and visual representations
+    of memory usage for both RAM and swap space.
+    """
+
     def __init__(self, bars=50):
         self.bars = bars
 
-    def get_memory_percentage(self):
+    def get_memory_percentage(self) -> float:
+        """Returns current RAM usage as percentage."""
         return psutil.virtual_memory().percent
 
-    def get_swap_percentage(self):
+    def get_swap_percentage(self) -> float:
+        """Returns current swap usage as percentage."""
         return psutil.swap_memory().percent
 
-    def get_memory_usage(self):
+    def get_memory_usage(self) -> str:
+        """Returns formatted string showing RAM usage with visual bar."""
         memory = self.get_memory_percentage()
         return self._format_usage(memory)
 
-    def get_swap_usage(self):
+    def get_swap_usage(self) -> str:
+        """Returns formatted string showing swap usage with visual bar."""
         swap = self.get_swap_percentage()
         return self._format_usage_swap(swap)
 

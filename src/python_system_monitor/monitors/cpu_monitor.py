@@ -1,9 +1,17 @@
-"""
-cpu_monitor.py
+"""CPU monitoring and analysis module.
 
-This module provides CPU monitoring functionality through the CPUMonitor class.
-It collects and formats CPU usage data, including per-core statistics,
-frequency information, and temperature readings where available.
+Features:
+- Overall CPU utilization tracking
+- Per-core usage statistics
+- Frequency monitoring
+- Temperature sensors (Linux)
+- Load average calculation
+
+Performance considerations:
+- Uses non-blocking operations
+- Implements rate limiting
+- Caches frequent measurements
+- Smooths rapid fluctuations
 """
 
 import psutil
@@ -12,6 +20,18 @@ import os
 import time
 
 class CPUMonitor:
+    """Monitors CPU activity and provides usage statistics.
+
+    Args:
+        bars (int): Number of characters to use in the visual progress bars
+
+    Features:
+    - Per-core and overall CPU usage tracking
+    - Frequency monitoring
+    - Temperature sensors reading on Linux
+    - Visual representation of CPU load
+    """
+
     def __init__(self, bars=50):
         self.temp_sensors = self._init_temp_sensors()
         self.prev_cpu_times = psutil.cpu_times()
@@ -19,8 +39,7 @@ class CPUMonitor:
         self.last_cpu_percent = psutil.cpu_percent(interval=None)
         self.last_per_cpu_percent = psutil.cpu_percent(interval=None, percpu=True)
         self.last_check_time = time.time()
-        self.update_threshold = 0.05  # Reduce from 0.1 to 0.05 seconds
-
+        self.update_threshold = 0.05 
     def _init_temp_sensors(self):
         if platform.system() == 'Linux':
             sensors = {}
@@ -36,7 +55,7 @@ class CPUMonitor:
 
     def get_detailed_stats(self):
         current_time = time.time()
-        if current_time - self.last_check_time >= self.update_threshold:  # More frequent updates
+        if current_time - self.last_check_time >= self.update_threshold: 
             self.last_cpu_percent = psutil.cpu_percent(interval=None)
             self.last_per_cpu_percent = psutil.cpu_percent(interval=None, percpu=True)
             self.last_check_time = current_time

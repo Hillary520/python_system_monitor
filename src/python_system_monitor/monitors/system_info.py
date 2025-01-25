@@ -1,5 +1,12 @@
 """
-system_info.py - Async system information collector
+Asynchronous system information collection module.
+
+Key features:
+- Non-blocking OS information retrieval
+- Hardware specifications gathering
+- Network information collection
+- Resource availability tracking
+- Cached data management for static information
 """
 
 import platform
@@ -9,6 +16,11 @@ import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
 class SystemInfo:
+    """Asynchronous system information collector.
+
+    Uses ThreadPoolExecutor for potentially blocking operations and
+    implements caching for relatively static information.
+    """
     def __init__(self):
         self.executor = ThreadPoolExecutor(max_workers=2)
         self.cached_ip = None
@@ -37,8 +49,7 @@ class SystemInfo:
             elif not isinstance(result, Exception):
                 info.append(str(result))
 
-        return "\n".join(info[:7])  # Return first 7 lines for UI
-
+        return "\n".join(info[:7])  
     async def _get_os_info(self, loop):
         """Async OS/Host info with caching"""
         if not self.cached_hostname:

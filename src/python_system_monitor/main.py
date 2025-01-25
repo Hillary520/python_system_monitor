@@ -1,5 +1,19 @@
 """
-main.py - Optimized main module with async scheduling
+Main system monitor coordination module.
+
+Architecture:
+- Asynchronous task scheduling
+- Non-blocking UI updates
+- Event-driven monitoring
+- Resource-efficient polling
+- Responsive user interface
+
+Components:
+- CPU monitoring
+- Memory tracking
+- Network statistics
+- Process management
+- System information
 """
 
 import curses
@@ -18,7 +32,7 @@ async def monitor_cpu(cpu_monitor, ui, y, x, width):
     while True:
         stats = cpu_monitor.get_detailed_stats()
         ui.update_cpu_section(y, x, width, stats)
-        await asyncio.sleep(0.05)  # Increase to 20 FPS
+        await asyncio.sleep(0.05) 
 
 async def monitor_memory(memory_monitor, ui, y, x, width):
     """Memory monitoring with higher frequency"""
@@ -27,7 +41,7 @@ async def monitor_memory(memory_monitor, ui, y, x, width):
             mem = memory_monitor.get_memory_percentage()
             swap = memory_monitor.get_swap_percentage()
             ui.update_memory_section(y, x, width, mem, swap)
-            await asyncio.sleep(0.1)  # Reduce to 100ms
+            await asyncio.sleep(0.1) 
         except Exception as e:
             await asyncio.sleep(0.1)
 
@@ -37,7 +51,7 @@ async def monitor_system_info(system_info, ui, y, x, width):
         try:
             data = await system_info.get_system_info()
             ui.update_system_info(y, x, width, data)
-            await asyncio.sleep(10)  # Reduce update frequency
+            await asyncio.sleep(10) 
         except Exception as e:
             await asyncio.sleep(5)
 
@@ -47,7 +61,7 @@ async def monitor_network(network_monitor, ui, y, x, width):
         try:
             data = network_monitor.get_bandwidth_usage()
             ui.update_network_section(y, x, width, data)
-            await asyncio.sleep(0.05)  # Reduce to 50ms
+            await asyncio.sleep(0.05) 
         except Exception as e:
             await asyncio.sleep(0.05)
 
@@ -57,7 +71,7 @@ async def monitor_processes(process_monitor, ui, y, x, width):
         try:
             processes = process_monitor.get_running_processes()
             ui.update_process_section(y, x, width, processes, ui.selected_process)
-            await asyncio.sleep(0.2)  # Reduce to 200ms
+            await asyncio.sleep(0.2)
         except Exception as e:
             await asyncio.sleep(0.1)
 
@@ -76,14 +90,14 @@ async def handle_process_control(process_monitor, ui):
                 elif action == 'refresh':
                     ui.stdscr.clear()
                     ui.stdscr.refresh()
-            await asyncio.sleep(0.016)  # More responsive input handling
+            await asyncio.sleep(0.016)
         except Exception as e:
             await asyncio.sleep(0.016)
 
 async def ui_refresher(ui):
     """Higher frequency UI refresh"""
     while True:
-        await asyncio.sleep(0.016)  # ~60 FPS
+        await asyncio.sleep(0.016)
         ui.stdscr.refresh()
 
 async def handle_resize(ui, stdscr):
@@ -117,7 +131,7 @@ async def main(stdscr):
     # Initial layout calculation
     h, w = stdscr.getmaxyx()
     layout = ui.get_layout(h, w)
-    ui.last_layout = layout  # Ensure layout is set
+    ui.last_layout = layout 
     
     # Monitor instances and their corresponding monitoring functions
     monitors = {
